@@ -24,38 +24,51 @@ interface.prompt();
 
 interface.on('line', line => {
       if (line == "v") {
-
-            if (list === undefined || list.length == 0) {
-                  console.log("List is empty...")
-                  console.log(`\n ${menu}`);
+            if(file) {
+                  fs.readFile(file, "utf8", (err,data) => {
+                        if(data === undefined) {
+                              console.log("List is empty...")
+                              console.log(`\n ${menu}`);
+                        } else {
+                              const fileContents = data.toString();
+                              const newLine = `\n`;
+                              const linesArray = fileContents.split(newLine);
+                              linesArray.forEach((line, index) => {
+                                    console.log(`${index} ${line}`);
+                              })
+                              console.log(`\n ${menu}`);
+                        }
+                  })      
             } else {
-                  list.forEach((line, index) => {
-                        console.log(`${index} ${line}`);
-                  })
-                  console.log(`\n ${menu}`);
+                  if (list === undefined || list.length == 0) {
+                              console.log("List is empty...")
+                              console.log(`\n ${menu}`);
+                        } else {
+                              list.forEach((line, index) => {
+                                    console.log(`${index} ${line}`);
+                              })
+                              console.log(`\n ${menu}`);
+                        }
             }
-          
-            // fs.readFile(file || fileName, "utf8", (err,data) => {
-            //       if(data.length == 0 || data === undefined) {
-            //             console.log("List is empty...")
-            //             console.log(`\n ${menu}`);
-            //       } else {
-            //             const fileContents = data.toString();
-            //             const newLine = `\n`;
-            //             const linesArray = fileContents.split(newLine);
-            //             linesArray.forEach((line, index) => {
-            //                   console.log(`${index} ${line}`);
-            //             })
-            //             console.log(`\n ${menu}`);
-            //       }
+
             
+      } else if (line == "n") {  
+            if (file) {
+                  interface.question("What would you like to add? \n", (answer) => {
+                        let box = "[]"
+                        fs.appendFile(file, `\n${box} ${answer}`, (err,data) => {
+                              console.log(err)
+                        })
+                        console.log(`\n ${menu}`)
+                  })
+            } else {
+                  let box = "[]"
+                  interface.question("What would you like to add? \n", (answer) => {
+                        list.push(`${box} ${answer}`)
+                        console.log(`\n ${menu}`)
+                  })
+            }
             
-      } else if (line == "n") {     
-            let box = "[]"
-            interface.question("What would you like to add? \n", (answer) => {
-                  list.push(`${box} ${answer}`)
-                  console.log(`\n ${menu}`)
-            })
 
       } else if (line[0] == "c") {
             let index = line[1];
@@ -64,12 +77,14 @@ interface.on('line', line => {
             console.log(`Completed "${task}"`)
             console.log(`\n ${menu}`)
 
+            
       } else if (line[0] == "d") {
             let index = line[1];
             let task = list[index].slice(3)
             list.splice(index, 1)
             console.log(`Deleted "${task}"`)  
             console.log(`\n ${menu}`)    
+
 
       } else if (line == "s") {
             interface.question('Where would you like to save it?\n', (answer) => {
@@ -95,9 +110,11 @@ interface.on('line', line => {
                   }   
             })
 
+
       } else if (line == "q") {
             console.log("See you soon")
             process.exit();
+
 
       } else {
             console.log('invalid input')
