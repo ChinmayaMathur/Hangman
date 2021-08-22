@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> 
+      <title>Hangman</title>
+      <audio src="./sounds/rightanswer.wav" id="correctSound"></audio>
+      <audio src="./sounds/wronganswer.wav" id="wrongSound"></audio>
+      <audio src="./sounds/gamelose.wav" id="gameOverSound"></audio>
+      <audio src="./sounds/gamewin.wav" id="gameWinSound"></audio>
+      <style>
+            body {
+                font-size: 17px;
+                font-family: 'Courier New', Courier, monospace;
+                background: lightblue;
+                line-height: 1.5 em;
+            }
+            header {
+                background: grey;
+                text-align: center;
+                border-bottom: 4px solid;
+                border-top: 4px solid;
+                margin-bottom: 10px;
+            }
+    
+            span {
+                font-weight: bold;
+            }
+    
+            .answer h1 {
+                display: none;
+                margin: 17px;
+            }
+    
+            .answer {
+                display: flex;
+            }
+            
+            .hangman {
+                margin-top: 50px;
+            }
+    
+            .game {
+                display: flex;
+                justify-content: space-around;
+            }
+    
+            .keyboard button {
+                background-color: lightpink;
+                height: 50px;
+                width: 50px;
+                margin: 3px;
+            }
+        </style>
+</head>
+<body>
+      <header>
+            <h1>Hangman</h1>
+        </header>
+    
+        <div class="game">
+        <section class="keyboard">
+            <h3>Keyboard</h3>
+            <div>
+                <button id="a">A</button>
+                <button id="b">B</button>
+                <button id="c">C</button>
+                <button id="d">D</button>
+                <button id="e">E</button>
+                <button id="f">F</button>
+                <button id="g">G</button>
+                <button id="h">H</button>
+                <button id="i">I</button>
+                <button id="j">J</button>
+            </div>
+            <div>
+                <button id="k">K</button>
+                <button id="l">L</button>
+                <button id="m">M</button>
+                <button id="n">N</button>
+                <button id="o">O</button>
+                <button id="p">P</button>
+                <button id="q">Q</button>
+                <button id="r">R</button>
+                <button id="s">S</button>
+                <button id="t">T</button>
+            </div>
+            <div>
+                <button id="u">U</button>
+                <button id="v">V</button>
+                <button id="w">W</button>
+                <button id="x">X</button>
+                <button id="y">Y</button>
+                <button id="z">Z</button>
+            </div>
+        </section>
+        
+    
+        <section class="hangman">
+            <img width="250px" height="250px" src="./images/pole.jpg" alt="hangman post">
+        </section>
+        </div>
+    
+        <hr>
+    
+        <section class="word">
+            <h3>Secret Word</h3>
+            <p> 
+                <span>Hint:</span>
+                Rhymes with 'danger'.
+            </p>
+            <div class="answer">
+                <h1 id="ansS">S</h1>
+                <p id="spacingS">&emsp;</p>
+                <h1 id="ansT">T</h1>
+                <p id="spacingT">&emsp;</p>
+                <h1 id="ansR">R</h1>
+                <p id="spacingR">&emsp;</p>
+                <h1 id="ansA">A</h1>
+                <p id="spacingA">&emsp;</p>
+                <h1 id="ansN">N</h1>
+                <p id="spacingN">&emsp;</p>
+                <h1 id="ansG">G</h1>
+                <p id="spacingG">&emsp;</p>
+                <h1 id="ansE">E</h1>
+                <p id="spacingE">&emsp;</p>
+                <h1 id="ansR2">R</h1>
+            </div>
+    
+            <div class="underline">
+                ____ ____ ____ ____ ____ ____ ____ ____
+            </div>
+    
+        </section>
+        <script>
+            let wrong = 0;
+            let correct = 0;
+
+            const correctSound = document.getElementById('correctSound');
+            const wrongSound = document.getElementById('wrongSound');
+            const gameOverSound = document.getElementById('gameOverSound');
+            const gameWinSound = document.getElementById('gameWinSound');
+    
+            $(document).ready(function() {     
+                $('button').click(function() {
+                    if ($(this).data('clicked')) {
+                        alert('Already clicked!');
+                    } else if ($(this).data('clicked', false)) {
+                        $(this).css('background', 'orange');
+                        $(this).data('clicked', true);
+                            if (this.id == 's') {
+                                correct ++
+                                $('#ansS').show();
+                                $('#spacingS').hide();
+                                    if (correct === 7) {
+                                        $(gameWinSound.play());
+                                        alert('Congratulations! You correct!');
+                                    } else {
+                                        $(correctSound.play());
+                                        console.log(correct);
+                                    }
+                            } else if (this.id == 't') {
+                                correct ++
+                                $('#ansT').show();
+                                $('#spacingT').hide();
+                                    if (correct === 7) {
+                                        $(gameWinSound.play());
+                                        alert('Congratulations! You correct!');
+                                    } else {
+                                        $(correctSound.play());
+                                        console.log(correct);
+                                    }
+                            } else if (this.id == 'r') {
+                                correct ++
+                                $('#ansR').show();
+                                $('#spacingR').hide();
+                                $('#ansR2').show();
+                                    if (correct === 7) {
+                                        $(gameWinSound.play());
+                                        alert('Congratulations! You correct!');
+                                    } else {
+                                        $(correctSound.play());
+                                        console.log(correct);
+                                    }
+                            } else if (this.id == 'a') {
+                                 correct ++
+                                $('#ansA').show();
+                                $('#spacingA').hide();
+                                    if (correct === 7) {
+                                        $(gameWinSound.play());
+                                        alert('Congratulations! You correct!');
+                                    } else {
+                                        $(correctSound.play());
+                                        console.log(correct);
+                                    }
+                            } else if (this.id == 'n') {
+                                correct ++
+                                $('#ansN').show();
+                                $('#spacingN').hide();
+                                    if (correct === 7) {
+                                        $(gameWinSound.play());
+                                        alert('Congratulations! You correct!');
+                                    } else {
+                                        $(correctSound.play());
+                                        console.log(correct);
+                                    }
+                            }  else if (this.id == 'g') {
+                                correct ++
+                                $('#ansG').show();
+                                $('#spacingG').hide();
+                                    if (correct === 7) {
+                                        $(gameWinSound.play());
+                                        alert('Congratulations! You correct!');
+                                    } else {
+                                        $(correctSound.play());
+                                        console.log(correct);
+                                    }
+                            } else if (this.id == 'e') {
+                                correct ++
+                                $('#ansE').show();
+                                $('#spacingE').hide();
+                                    if (correct === 7) {
+                                        $(gameWinSound.play());
+                                        alert('Congratulations! You correct!');
+                                    } else {
+                                        $(correctSound.play());
+                                        console.log(correct);
+                                    }
+                            } else if (this.id == 'r') {
+                                correct ++
+                                $('#ansR').show();
+                                    if (correct === 7) {
+                                        $(gameWinSound.play());
+                                        alert('Congratulations! You correct!');
+                                    } else {
+                                        $(correctSound.play());
+                                        console.log(correct);
+                                }
+                            } else {
+                                wrong++
+                                if (wrong === 1) {
+                                    $(wrongSound.play());
+                                    $('img').attr('src', './images/rope.jpg');
+                                    console.log(wrong);
+                                } else if (wrong === 2) {
+                                    $(wrongSound.play());
+                                    $('img').attr('src', './images/head.jpg');
+                                    console.log(wrong);
+                                } else if (wrong === 3) {
+                                    $(wrongSound.play());
+                                    $('img').attr('src', './images/body.jpg');
+                                    console.log(wrong);
+                                } else if (wrong === 4) {
+                                    $(wrongSound.play());
+                                    $('img').attr('src', './images/handleft.jpg');
+                                    console.log(wrong);
+                                } else if (wrong === 5) {
+                                    $(wrongSound.play());
+                                    $('img').attr('src', './images/handright.jpg');
+                                    console.log(wrong);
+                                } else if (wrong === 6) {
+                                    $(wrongSound.play());
+                                    $('img').attr('src', './images/feetleft.jpg');
+                                    console.log(wrong);
+                                } else {
+                                    $(gameOverSound.play());
+                                    $('img').attr('src', './images/wholehangman.jpg');
+                                    alert('Game Over! Better luck next time...');
+                                }
+                            }
+                    } else {
+                        alert('error');
+                    }
+                })
+            })
+    
+        </script>
+      
+</body>
+</html>
