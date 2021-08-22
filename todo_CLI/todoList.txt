@@ -1,3 +1,0 @@
-[✓] buy books
-[] buy pen
-[] buy fruits
